@@ -5,7 +5,7 @@ from schema import SchemaError
 
 from pyparsy import YamlFileNotFound, Parsy, Definition
 from pyparsy.enum_types import ReturnType, SelectorType
-from pyparsy.exceptions import XPathValidationException, RegexValidationException
+from pyparsy.exceptions import XPathValidationException, RegexValidationException, CSSValidationException
 
 
 def test_initialization_raises_not_found():
@@ -52,5 +52,10 @@ def test_invalid_regex():
 def test_invalid_schema():
     with pytest.raises(SchemaError):
         parser = Parsy("tests/assets/invalid/invalid_schema.yaml")
+
+
+def test_invalid_css():
+    with pytest.raises(CSSValidationException):
+        parser = Parsy("tests/assets/invalid/invalid_css.yaml")
 
 

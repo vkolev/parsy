@@ -6,7 +6,7 @@ from cssselect import GenericTranslator, SelectorError
 from schema import Schema, And, Use, Optional, Or
 
 from pyparsy.enum_types import SelectorType
-from pyparsy.exceptions import XPathValidationException, RegexValidationException
+from pyparsy.exceptions import XPathValidationException, RegexValidationException, CSSValidationException
 
 DEFINITION_SCHEMA = Schema({
     And("selector"): Or(str, list[str]),
@@ -33,6 +33,8 @@ class Validator:
                 self.validate_xpath(definitions.get("selector"), field)
             if SelectorType[definitions.get("selector_type")] == SelectorType.REGEX:
                 self.validate_regex(definitions.get("selector"), field)
+            if SelectorType[definitions.get("selector_type")] == SelectorType.CSS:
+                self.validate_css(definitions.get("selector"), field)
 
     def validate_schema(self, definitions: Dict):
         try:

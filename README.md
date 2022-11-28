@@ -1,6 +1,6 @@
 ![Logo](images/parsy-logo.png)
 
-![CI](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+![CI](https://github.com/vkolev/parsy/actions/workflows/main.yml/badge.svg?branch=master)
 
 # Parsy
 

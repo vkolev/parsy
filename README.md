@@ -1,4 +1,4 @@
-![Logo](images/parsy-logo.png)
+![Logo](https://raw.githubusercontent.com/vkolev/parsy/master/images/parsy-logo.png)
 
 ![CI](https://github.com/vkolev/parsy/actions/workflows/main.yml/badge.svg?branch=master) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyparsy) ![PyPI](https://img.shields.io/pypi/v/pyparsy)
 

@@ -1,0 +1,30 @@
+title:
+  selector: //title[1]/text()
+  selector_type: XPATH
+  multiple: false
+  return_type: STRING
+subtitle_versions:
+  selector:
+    - //h1[1]/text()
+    - //h2[1]/text()
+  selector_type: XPATH
+  multiple: false
+  return_type: STRING
+list_items:
+  selector: //ul/li/text()
+  selector_type: XPATH
+  multiple: true
+  return_type: STRING
+components:
+  selector: //div[1]
+  selector_type: XPATH
+  return_type: MAP
+  children:
+    link:
+      selector: //a/href()
+      selector_type: XPATH
+      return_type: STRING
+    count:
+      selector: //a/text()
+      selector_type: XPATH
+      return_type: INTEGER

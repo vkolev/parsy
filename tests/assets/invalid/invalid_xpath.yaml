@@ -1,0 +1,5 @@
+title:
+  selector: //title[1].text()
+  selector_type: XPATH
+  multiple: false
+  return_type: INTEGER

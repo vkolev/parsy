@@ -1,0 +1,5 @@
+title:
+  selector: "^[a-Z1-9]{1,2}^&$"
+  selector_type: REGEX
+  multiple: false
+  return_type: INTEGER

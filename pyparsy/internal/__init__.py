@@ -12,8 +12,8 @@ class Definition:
         'multiple',
         'xpath',
         'regex',
-        'children'
-
+        'css',
+        'children',
     )
 
     def __init__(self, field: str, definition: dict):

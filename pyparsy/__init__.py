@@ -6,7 +6,7 @@ import yaml
 from parsel import Selector, SelectorList
 from yaml import SafeLoader
 
-from pyparsy.exceptions import YamlFileNotFound
+from pyparsy.exceptions import YamlFileNotFound, UnsupportedDefinition
 from pyparsy.enum_types import ReturnType, SelectorType
 from pyparsy.internal import Definition
 from pyparsy.utils import extract_float, extract_integer
@@ -93,7 +93,11 @@ class Parsy:
     def _get_selector_data(self, html_data: Selector, definition: Definition):
         if definition.selector_type == SelectorType.XPATH:
             return html_data.xpath(query=definition.xpath)
-        return html_data.re(definition.regex)
+        if definition.selector_type == SelectorType.REGEX:
+            return html_data.re(definition.regex)
+        if definition.selector_type == SelectorType.CSS:
+            return html_data.css(definition.css)
+        raise UnsupportedDefinition(definition.selector_type.name)
 
     def _convert_to_type(self, html_data: Union[Selector, SelectorList], return_type: ReturnType):
         if return_type == ReturnType.STRING:

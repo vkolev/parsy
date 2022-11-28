@@ -2,6 +2,7 @@ import re
 from typing import Dict, Union
 
 import lxml.etree
+from cssselect import GenericTranslator, SelectorError
 from schema import Schema, And, Use, Optional, Or
 
 from pyparsy.enum_types import SelectorType
@@ -10,7 +11,7 @@ from pyparsy.exceptions import XPathValidationException, RegexValidationExceptio
 DEFINITION_SCHEMA = Schema({
     And("selector"): Or(str, list[str]),
     And("selector_type"): And(str, Use(str.upper),
-                              lambda s: s in ("XPATH", "REGEX")),
+                              lambda s: s in ("XPATH", "REGEX", "CSS")),
     Optional("multiple"): And(bool),
     And("return_type"): And(str, Use(str.upper),
                             lambda s: s in ("INTEGER", "STRING", "FLOAT", "DOUBLE", "MAP")),
@@ -54,3 +55,14 @@ class Validator:
             re.compile(regex)
         except Exception:
             raise RegexValidationException(field)
+
+    def validate_css(self, css: Union[str, list[str]], field: str):
+        try:
+            if isinstance(css, str):
+                test = GenericTranslator().css_to_xpath(css)
+            else:
+                for cs in css:
+                    test = GenericTranslator().css_to_xpath(cs)
+        except SelectorError:
+            raise CSSValidationException(field)
+

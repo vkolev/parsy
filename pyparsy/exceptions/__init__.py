@@ -1,5 +1,4 @@
 class YamlFileNotFound(Exception):
-
     def __init__(self, yaml_path: str = ""):
         self.message = f"Path {yaml_path} not found."
         super().__init__(self.message)

@@ -53,8 +53,8 @@ class Parsy:
         """
         Parse the whole html_string to a defaultdict
 
-        :param html_string: HTML formated string
-        :return: defaultdict()
+        :param html_string: HTML formatted string
+        :return: dictionary of the parsed data
         """
         result = defaultdict()
         html_data = Selector(html_string)
@@ -91,6 +91,13 @@ class Parsy:
             yield result
 
     def _get_selector_data(self, html_data: Selector, definition: Definition):
+        """
+        Factory method to get the Selector from HTML based on the SelectorType
+
+        :param html_data: Selector - lxml.etree HTML content
+        :param definition: Definition - of the field
+        :return: SelectorList - result of the selector query
+        """
         if definition.selector_type == SelectorType.XPATH:
             return html_data.xpath(query=definition.xpath)
         if definition.selector_type == SelectorType.REGEX:
@@ -100,6 +107,12 @@ class Parsy:
         raise UnsupportedDefinition(definition.selector_type.name)
 
     def _convert_to_type(self, html_data: Union[Selector, SelectorList], return_type: ReturnType):
+        """
+        Convert the SelectorList/Selector data to a ReturnType format
+        :param html_data: Selector/SelectorList HTML data
+        :param return_type: ReturnType desired return type
+        :return: data in desired type or None
+        """
         if return_type == ReturnType.STRING:
             return html_data.get()
         if return_type == ReturnType.INTEGER:

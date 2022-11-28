@@ -22,9 +22,8 @@ The YAML files contain:
 
 Using pip:
 ```shell
-pip install parsy
+pip install pyparsy
 ```
-
 
 ## Running Tests
 
@@ -35,6 +34,65 @@ To run tests, run the following command
 ```
 
 ## Examples
+
+We can consider as an example the amazon bestseller page. First we define the .yaml definition file:
+
+```yaml
+title:
+  selector: //div[contains(@class, "_card-title_")]/h1/text()
+  selector_type: XPATH
+  return_type: STRING
+page:
+  selector: //ul[contains(@class, "a-pagination")]/li[@class="a-selected"]/a/text()
+  selector_type: XPATH
+  return_type: INTEGER
+products:
+  selector: //div[@id="gridItemRoot"]
+  selector_type: XPATH
+  multiple: true
+  return_type: MAP
+  children:
+    image:
+      selector: //img[contains(@class, "a-dynamic-image")]/@src
+      selector_type: XPATH
+      return_type: STRING
+    title:
+      selector: //a[@class="a-link-normal"]/span/div/text()
+      selector_type: XPATH
+      return_type: STRING
+    price:
+      selector: //span[contains(@class, "a-color-price")]/span/text()
+      selector_type: XPATH
+      return_type: FLOAT
+    asin:
+      selector: //div[contains(@class, "sc-uncoverable-faceout")]/@id
+      selector_type: XPATH
+      return_type: STRING
+    reviews_count:
+      selector: //div[contains(@class, "sc-uncoverable-faceout")]/div/div/a/span/text()
+      selector_type: XPATH
+      return_type: INTEGER
+```
+
+For the example sake let's store the file as `amazon_bestseller.yaml`.
+
+Then we can use the PyParsy library in out code:
+
+```python
+import httpx
+from pyparsy import Parsy
+
+def main():
+    html = httpx.get("https://www.amazon.com/gp/bestsellers/hi/?ie=UTF8&ref_=sv_hg_1")
+    parser = Parsy("amazon_bestseller.yaml")
+    result = parser.parse(html.text)
+    print(result)
+    
+if __name__ == "__main__":
+    main()
+```
+
+For more examples please see the tests for the library.
 
 ## Documentation
 

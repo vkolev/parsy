@@ -3,9 +3,9 @@ from typing import Dict
 import pytest
 from schema import SchemaError
 
-from parsy import YamlFileNotFound, Parsy, Definition
-from parsy.enum_types import ReturnType, SelectorType
-from parsy.exceptions import XPathValidationException, RegexValidationException
+from pyparsy import YamlFileNotFound, Parsy, Definition
+from pyparsy.enum_types import ReturnType, SelectorType
+from pyparsy.exceptions import XPathValidationException, RegexValidationException
 
 
 def test_initialization_raises_not_found():

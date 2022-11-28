@@ -4,8 +4,8 @@ from typing import Dict, Union
 import lxml.etree
 from schema import Schema, And, Use, Optional, Or
 
-from parsy.enum_types import SelectorType
-from parsy.exceptions import XPathValidationException, RegexValidationException
+from pyparsy.enum_types import SelectorType
+from pyparsy.exceptions import XPathValidationException, RegexValidationException
 
 DEFINITION_SCHEMA = Schema({
     And("selector"): Or(str, list[str]),

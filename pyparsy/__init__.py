@@ -6,16 +6,22 @@ import yaml
 from parsel import Selector, SelectorList
 from yaml import SafeLoader
 
-from parsy.exceptions import YamlFileNotFound
-from parsy.enum_types import ReturnType, SelectorType
-from parsy.internal import Definition
-from parsy.utils import extract_float, extract_integer
-from parsy.validator import Validator
+from pyparsy.exceptions import YamlFileNotFound
+from pyparsy.enum_types import ReturnType, SelectorType
+from pyparsy.internal import Definition
+from pyparsy.utils import extract_float, extract_integer
+from pyparsy.validator import Validator
 
 
 class Parsy:
 
     def __init__(self, yaml_path: str = None, validate: bool = True):
+        """
+        Parsing class initializer
+
+        :param yaml_path: path to YAML file containing definitions
+        :param validate: bool - turn on/off yaml schema validation
+        """
         self.yaml_path = yaml_path
         self._definitions = self.__load_definitions()
         if validate:
@@ -44,6 +50,12 @@ class Parsy:
             raise e
 
     def parse(self, html_string: str):
+        """
+        Parse the whole html_string to a defaultdict
+
+        :param html_string: HTML formated string
+        :return: defaultdict()
+        """
         result = defaultdict()
         html_data = Selector(html_string)
         for field, definition in self.field_selectors.items():
@@ -54,6 +66,12 @@ class Parsy:
         return result
 
     def parse_field(self, html_data: Union[Selector, SelectorList], definition: Definition) -> Any:
+        """
+        Extract field from html_data with given definition
+        :param html_data: parsel.Selector with HTML data
+        :param definition: pyparsy.internal.Definition
+        :return: Any
+        """
         if definition.return_type != ReturnType.MAP:
             data = self._get_selector_data(html_data, definition)
             return self._convert_to_type(data, return_type=definition.return_type)

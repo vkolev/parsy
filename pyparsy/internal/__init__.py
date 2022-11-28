@@ -1,6 +1,6 @@
 from typing import Dict
 
-from parsy.enum_types import SelectorType, ReturnType
+from pyparsy.enum_types import SelectorType, ReturnType
 
 
 class Definition:

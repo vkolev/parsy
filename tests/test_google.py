@@ -1,4 +1,4 @@
-from parsy import Parsy
+from pyparsy import Parsy
 
 
 def test_google_search_results():

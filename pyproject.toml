@@ -3,7 +3,20 @@ name = "pyparsy"
 version = "0.1.0"
 description = "HTML parsing library using YAML definitions and XPath"
 authors = ["Vladimir Kolev <vladimir.r.kolev@gmail.com>"]
+license = "MIT"
 readme = "README.md"
+homepage = "https://github.com/vkolev/parsy"
+repository = "https://github.com/vkolev/parsy"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment",
+    "Topic :: Text Processing :: Markup :: HTML",
+    "Topic :: Utilities"
+]
+
+include = [
+    "LICENSE"
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"

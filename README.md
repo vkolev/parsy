@@ -2,7 +2,7 @@
 
 ![CI](https://github.com/vkolev/parsy/actions/workflows/main.yml/badge.svg?branch=master)
 
-# Parsy
+# PyParsy
 
 Parsy is a HTML parsing library using YAML definition files. The idea is to use the YAML file as
 sort of intent - what you want to have as a result and let Parsy do the heavy lifting for you.
@@ -16,7 +16,7 @@ The YAML files contain:
 - YAML File definitions
 - Intent instead of coding
 - support for XPath and Regex
-- Different output formats e.g. JSON, YAML, XML, Avro
+- Different output formats e.g. JSON, YAML, XML
 
 ## Installation
 

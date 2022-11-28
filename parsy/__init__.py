@@ -1,10 +1,13 @@
 import os
+from collections import defaultdict
+from typing import Any, Union
 
 import yaml
+from parsel import Selector, SelectorList
 from yaml import SafeLoader
 
 from parsy.exceptions import YamlFileNotFound
-from parsy.enum_types import ReturnType
+from parsy.enum_types import ReturnType, SelectorType
 from parsy.internal import Definition
 from parsy.validator import Validator
 
@@ -40,10 +43,37 @@ class Parsy:
             raise e
 
     def parse(self, html_string: str):
-        self.html_string = html_string
-        print("Parsing...")
+        result = defaultdict()
+        html_data = Selector(html_string)
+        for field, definition in self.field_selectors:
+            result[field] = self.parse_field(html_data, definition)
+        return result
 
-    def get_xpath(self, xpath: str, return_type: ReturnType):
-        pass
+    def parse_field(self, html_data: Union[Selector, SelectorList], definition: Definition) -> Any:
+        result = defaultdict()
+        data = self._get_selector_data(html_data, definition)
+        if not definition.children:
+            result[definition.field] = self._convert_to_type(data, definition.return_type)
+        else:
+            for child, child_def in definition.children.items():
+                result[definition.field][child] = self.parse_field(data, child_def)
+        return result
+
+    def _get_selector_data(self, html_data: Selector, definition: Definition):
+        if definition.selector_type == SelectorType.XPATH:
+            return html_data.xpath(definition.xpath)
+        return html_data.re(definition.regex)
+
+    def _convert_to_type(self, html_data: Union[Selector, SelectorList], return_type: ReturnType):
+        if return_type == ReturnType.STRING:
+            return html_data.get()
+        if return_type == ReturnType.INTEGER:
+            return int(html_data.get())
+        if return_type == ReturnType.FLOAT:
+            return float(html_data.get())
+        if return_type == ReturnType.BOOLEAN:
+            return html_data.get() is not None
+        return None
+
 
 

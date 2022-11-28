@@ -1,6 +1,6 @@
 ![Logo](images/parsy-logo.png)
 
-![CI](https://github.com/vkolev/parsy/actions/workflows/main.yml/badge.svg?branch=master)
+![CI](https://github.com/vkolev/parsy/actions/workflows/main.yml/badge.svg?branch=master) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyparsy) ![PyPI](https://img.shields.io/pypi/v/pyparsy)
 
 # PyParsy
 

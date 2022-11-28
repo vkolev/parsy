@@ -9,7 +9,7 @@ from yaml import SafeLoader
 from parsy.exceptions import YamlFileNotFound
 from parsy.enum_types import ReturnType, SelectorType
 from parsy.internal import Definition
-from parsy.utils import extract_float
+from parsy.utils import extract_float, extract_integer
 from parsy.validator import Validator
 
 
@@ -81,7 +81,7 @@ class Parsy:
         if return_type == ReturnType.STRING:
             return html_data.get()
         if return_type == ReturnType.INTEGER:
-            return int(html_data.get())
+            return extract_integer(html_data.get())
         if return_type == ReturnType.FLOAT:
             return extract_float(html_data.get())
         if return_type == ReturnType.BOOLEAN:

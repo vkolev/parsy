@@ -1,0 +1,38 @@
+search_term:
+  selector: //input[@id="gh-ac"]/@value
+  selector_type: XPATH
+  return_type: STRING
+page:
+  selector: //a[contains(@aria-current, "page")]/text()
+  selector_type: XPATH
+  return_type: INTEGER
+products:
+  selector: //ul[contains(@class, "srp-results")]/li
+  selector_type: XPATH
+  multiple: true
+  return_type: MAP
+  children:
+    title:
+      selector: //div[@class="s-item__title"]/span/text()
+      selector_type: XPATH
+      return_type: STRING
+    subtitle:
+      selector: //div[@class="s-item__subtitle"]/text()
+      selector_type: XPATH
+      return_type: STRING
+    price:
+      selector: //span[@class="s-item__price"]/text()
+      selector_type: XPATH
+      return_type: FLOAT
+    trending_price:
+      selector: //span[@class="s-item__trending-price"]/span[@class="STRIKETHROUGH"]/text()
+      selector_type: XPATH
+      return_type: FLOAT
+    bidding:
+      selector: //span[contains(@class, "s-item__bidCount")]
+      selector_type: XPATH
+      return_type: BOOLEAN
+    image:
+      selector: //img[@class="s-item__image-img"]/@src
+      selector_type: XPATH
+      return_type: STRING

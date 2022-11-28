@@ -1,0 +1,34 @@
+title:
+  selector: //div[contains(@class, "_card-title_")]/h1/text()
+  selector_type: XPATH
+  return_type: STRING
+page:
+  selector: //ul[contains(@class, "a-pagination")]/li[@class="a-selected"]/a/text()
+  selector_type: XPATH
+  return_type: INTEGER
+products:
+  selector: //div[@id="gridItemRoot"]
+  selector_type: XPATH
+  multiple: true
+  return_type: MAP
+  children:
+    image:
+      selector: //img[contains(@class, "a-dynamic-image")]/@src
+      selector_type: XPATH
+      return_type: STRING
+    title:
+      selector: //a[@class="a-link-normal"]/span/div/text()
+      selector_type: XPATH
+      return_type: STRING
+    price:
+      selector: //span[contains(@class, "a-color-price")]/span/text()
+      selector_type: XPATH
+      return_type: FLOAT
+    asin:
+      selector: //div[contains(@class, "sc-uncoverable-faceout")]/@id
+      selector_type: XPATH
+      return_type: STRING
+    reviews_count:
+      selector: //div[contains(@class, "sc-uncoverable-faceout")]/div/div/a/span/text()
+      selector_type: XPATH
+      return_type: INTEGER

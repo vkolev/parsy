@@ -24,3 +24,11 @@ products:
       selector: //span[contains(@class, "a-color-price")]/span/text()
       selector_type: XPATH
       return_type: FLOAT
+    asin:
+      selector: //div[contains(@class, "sc-uncoverable-faceout")]/@id
+      selector_type: XPATH
+      return_type: STRING
+    reviews_count:
+      selector: //div[contains(@class, "sc-uncoverable-faceout")]/div/div/a/span/text()
+      selector_type: XPATH
+      return_type: INTEGER

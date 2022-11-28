@@ -1,5 +1,7 @@
 ![Logo](images/parsy-logo.png)
 
+![CI](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+
 # Parsy
 
 Parsy is a HTML parsing library using YAML definition files. The idea is to use the YAML file as

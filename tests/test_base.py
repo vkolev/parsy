@@ -14,12 +14,12 @@ def test_initialization_raises_not_found():
 
 
 def test_initialization_passes():
-    parser = Parsy("assets/amazon_com.yaml", validate=False)
-    assert "assets/amazon_com.yaml" == parser.yaml_path
+    parser = Parsy("tests/assets/amazon_com.yaml", validate=False)
+    assert "tests/assets/amazon_com.yaml" == parser.yaml_path
 
 
 def test_initialization_loaded():
-    parser = Parsy("assets/base_test.yaml")
+    parser = Parsy("tests/assets/base_test.yaml")
     assert isinstance(parser._definitions.get("title"), Dict)
     assert isinstance(parser._definitions.get("title").get("selector"), str)
     assert SelectorType.XPATH == SelectorType[parser._definitions.get("title").get("selector_type")]
@@ -28,7 +28,7 @@ def test_initialization_loaded():
 
 
 def test_validate_yaml_file():
-    parser = Parsy("assets/base_test.yaml")
+    parser = Parsy("tests/assets/base_test.yaml")
     assert isinstance(parser.field_selectors, Dict)
     assert isinstance(parser.field_selectors.get("title"), Definition)
     assert parser.field_selectors.get("title").selector_type == SelectorType.XPATH
@@ -41,16 +41,16 @@ def test_validate_yaml_file():
 
 def test_invalid_xpath():
     with pytest.raises(XPathValidationException):
-        parser = Parsy("assets/invalid/invalid_xpath.yaml")
+        parser = Parsy("tests/assets/invalid/invalid_xpath.yaml")
 
 
 def test_invalid_regex():
     with pytest.raises(RegexValidationException):
-        parser = Parsy("assets/invalid/invalid_regex.yaml")
+        parser = Parsy("tests/assets/invalid/invalid_regex.yaml")
 
 
 def test_invalid_schema():
     with pytest.raises(SchemaError):
-        parser = Parsy("assets/invalid/invalid_schema.yaml")
+        parser = Parsy("tests/assets/invalid/invalid_schema.yaml")
 
 

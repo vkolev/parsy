@@ -4,19 +4,28 @@
 
 # PyParsy
 
-Parsy is a HTML parsing library using YAML definition files. The idea is to use the YAML file as
-sort of intent - what you want to have as a result and let Parsy do the heavy lifting for you.
+PyParsy is an HTML parsing library using YAML definition files. The idea is to use the YAML file as
+sort of intent - what you want to have as a result and let Parsy do the heavy lifting for you. The
+differences to other similar libraries (e.g. [selectorlib](https://selectorlib.com/)) is that it 
+supports multiple version of selectors for a single field. This way you will not need to create a new 
+yaml definition file for every change on a website.
+
 
 The YAML files contain:
 - The desired structure of the output
-- XPath variants of the parsed items
+- XPath/CSS/Regex selectors for the element extraction
+- Return type definition
+- Optional children of the field
 
 ## Features
 
-- YAML File definitions
-- Intent instead of coding
-- support for XPath and Regex
-- Different output formats e.g. JSON, YAML, XML
+- [x] YAML File definitions
+- [x] YAML File validation
+- [x] Intent instead of coding
+- [x] support for XPath, CSS and Regex selectors
+- [ ] Different output formats e.g. JSON, YAML, XML
+- [x] Somewhat opinionated
+- [x] 99% coverage
 
 ## Installation
 
@@ -96,14 +105,13 @@ For more examples please see the tests for the library.
 
 ## Documentation
 
-[Documentation](https://parsy.readthedocs.com) (hopefuly some day)
+[Documentation](https://pyparsy.readthedocs.com) (hopefuly some day)
 
 ## Acknowledgements
 
  - [selectorlib](https://selectorlib.com/) - It is the main inspiration for this project
  - [Scrapy](https://scrapy.org/) - One of the best crawling libraries for Python
- - [Tiangolo](https://tiangolo.com/projects) - His projects are real inspiration to produce great software
-
-
+ - [parsel](https://github.com/scrapy/parsel) - Scrapy parsing library is heavily used in this project and can be considered main dependency.
+ - [schema](https://github.com/keleshev/schema) - Used for validating the YAML file schema
 ## Contributing
 

@@ -12,8 +12,8 @@ class Definition:
         'multiple',
         'xpath',
         'regex',
-        'children'
-
+        'css',
+        'children',
     )
 
     def __init__(self, field: str, definition: dict):
@@ -21,12 +21,15 @@ class Definition:
         self.selector_type: SelectorType = SelectorType[definition.get("selector_type")]
         self.return_type: ReturnType = ReturnType[definition.get("return_type")]
         self.multiple: bool = definition.get("multiple", False)
+        self.xpath = None
+        self.css = None
+        self.regex = None
         if self.selector_type.XPATH:
             self.xpath = definition.get('selector')
-            self.regex = None
-        else:
-            self.xpath = None
+        if self.selector_type.REGEX:
             self.regex = definition.get("selector")
+        if self.selector_type.CSS:
+            self.css = definition.get("selector")
         self.children: Dict[str, Definition] = {
             _field: self.__class__(_field, _definitions) for _field, _definitions in definition.get("children", {}).items()
         }

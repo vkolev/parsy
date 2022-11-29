@@ -12,3 +12,4 @@ class ReturnType(Enum):
 class SelectorType(Enum):
     XPATH = "xpath"
     REGEX = "regex"
+    CSS = "css"

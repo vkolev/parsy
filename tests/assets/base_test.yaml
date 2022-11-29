@@ -15,13 +15,42 @@ list_items:
   selector_type: XPATH
   multiple: true
   return_type: STRING
+css_test:
+  selector: h3.test::text
+  selector_type: CSS
+  return_type: STRING
+image:
+  selector:
+    - img.image::attr(src)
+    - img#intro::attr(src)
+  selector_type: CSS
+  return_type: STRING
+re_test:
+  selector: "let foo = \"(.*)\""
+  selector_type: REGEX
+  return_type: STRING
+multiple_re:
+  selector: "const .* \"(.*)\""
+  selector_type: REGEX
+  multiple: true
+  return_type: STRING
+re_not_existing:
+  selector: "var foo = \"(.*)\""
+  selector_type: REGEX
+  return_type: STRING
+re_multi_selector:
+  selector:
+    - "var foo = \"(.*)\""
+    - "let foo = \"(.*)\""
+  selector_type: REGEX
+  return_type: STRING
 components:
-  selector: //div[1]
+  selector: //div[@class="component"]
   selector_type: XPATH
   return_type: MAP
   children:
     link:
-      selector: //a/href()
+      selector: //a/@href
       selector_type: XPATH
       return_type: STRING
     count:

@@ -1,5 +1,6 @@
 import os
 from collections import defaultdict
+from pathlib import Path
 from typing import Any, Union, List
 
 import yaml
@@ -15,26 +16,31 @@ from pyparsy.validator import Validator
 
 class Parsy:
 
-    def __init__(self, yaml_path: str = None, validate: bool = True):
+    def __init__(self, yaml_def: dict = None, validate: bool = True):
         """
         Parsing class initializer
 
-        :param yaml_path: path to YAML file containing definitions
+        :param yaml_def: Yaml definition
         :param validate: bool - turn on/off yaml schema validation
         """
-        self.yaml_path = yaml_path
-        self._definitions = self.__load_definitions()
+        self._definitions = yaml_def
         if validate:
             self.__validate()
         self.field_selectors = self.__create_field_selectors()
         self.html_string = None
 
-    def __load_definitions(self):
-        if not os.path.exists(self.yaml_path):
-            raise YamlFileNotFound(self.yaml_path)
-        with open(self.yaml_path) as yaml_file:
-            data = yaml.load(yaml_file, Loader=SafeLoader)
-            return data
+    @classmethod
+    def from_file(cls, yaml_file: Path, validate: bool = True):
+        if yaml_file.is_file():
+            stream = yaml_file.open()
+            data = yaml.load(stream, Loader=SafeLoader)
+            return cls(data, validate)
+        raise YamlFileNotFound(yaml_file.name)
+
+    @classmethod
+    def from_string(cls, yaml_string: str, validate: bool = True):
+        data = yaml.safe_load(yaml_string)
+        return cls(data, validate)
 
     def __create_field_selectors(self):
         if self._definitions:
@@ -174,7 +180,6 @@ class Parsy:
             return extract_float(data)
         if return_type == ReturnType.BOOLEAN:
             return data is not None
-        return None
 
 
 

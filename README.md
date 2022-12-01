@@ -339,14 +339,16 @@ Then we can use the PyParsy library in out code:
 import httpx
 from pyparsy import Parsy
 
+
 def main():
-    html = httpx.get("https://www.amazon.com/gp/bestsellers/hi/?ie=UTF8&ref_=sv_hg_1")
-    parser = Parsy("amazon_bestseller.yaml")
-    result = parser.parse(html.text)
-    print(result)
-    
+  html = httpx.get("https://www.amazon.com/gp/bestsellers/hi/?ie=UTF8&ref_=sv_hg_1")
+  parser = Parsy.from_file("amazon_bestseller.yaml")
+  result = parser.parse(html.text)
+  print(result)
+
+
 if __name__ == "__main__":
-    main()
+  main()
 ```
 
 For more examples please see the tests for the library.

@@ -14,12 +14,11 @@ from pyparsy.validator import Validator
 
 
 class Parsy:
-
     def __init__(self, yaml_def: dict = None, validate: bool = True):
         """
         Parsing class initializer
 
-        :param yaml_def: Yaml definition
+        :param yaml_def: Yaml definition.
         :param validate: bool - turn on/off yaml schema validation
         """
         self._definitions = yaml_def
@@ -56,9 +55,9 @@ class Parsy:
 
     def parse(self, html_string: str):
         """
-        Parse the whole html_string to a defaultdict
+        Parse the whole html_string to a default-dict
 
-        :param html_string: HTML formatted string
+        :param html_string: HTML formatted string.
         :return: dictionary of the parsed data
         """
         result = defaultdict()
@@ -70,7 +69,9 @@ class Parsy:
                 result[field] = list(self.parse_filed_multiple(html_data, definition))
         return result
 
-    def parse_field(self, html_data: Union[Selector, SelectorList], definition: Definition) -> Any:
+    def parse_field(
+        self, html_data: Union[Selector, SelectorList], definition: Definition
+    ) -> Any:
         """
         Extract field from html_data with given definition
         :param html_data: parsel.Selector with HTML data
@@ -86,7 +87,9 @@ class Parsy:
             result[child] = self.parse_field(data, child_definition)
         return result
 
-    def parse_filed_multiple(self, html_data: Union[Selector, SelectorList], definition) -> Any:
+    def parse_filed_multiple(
+        self, html_data: Union[Selector, SelectorList], definition
+    ) -> Any:
         if definition.selector_type == SelectorType.REGEX:
             items = self._get_selector_data(html_data, definition)
         else:
@@ -106,7 +109,7 @@ class Parsy:
         """
         Factory method to get the Selector from HTML based on the SelectorType
 
-        :param html_data: Selector - lxml.etree HTML content
+        :param html_data: Selector - `lxml.etree` HTML content
         :param definition: Definition - of the field
         :return: SelectorList - result of the selector query
         """
@@ -160,7 +163,9 @@ class Parsy:
         return result
 
     @staticmethod
-    def _convert_to_type(html_data: Union[Selector, SelectorList, str], return_type: ReturnType):
+    def _convert_to_type(
+        html_data: Union[Selector, SelectorList, str], return_type: ReturnType
+    ):
         """
         Convert the SelectorList/Selector data to a ReturnType format
         :param html_data: Selector/SelectorList HTML data
@@ -179,6 +184,3 @@ class Parsy:
             return extract_float(data)
         if return_type == ReturnType.BOOLEAN:
             return data is not None
-
-
-

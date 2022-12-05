@@ -13,9 +13,9 @@ def __clean_string_number(given_string: str) -> str:
     """
     number = re.sub(r"[^(\d,.)]", "", given_string)
     dot_position = number.find(".")
-    comma_position = number.find(',')
+    comma_position = number.find(",")
     if comma_position > dot_position:
-        number = number.replace('.', "")
+        number = number.replace(".", "")
         number = number.replace(",", ".")
     else:
         number = number.replace(",", "")
@@ -56,4 +56,3 @@ def extract_integer(integer_string: str) -> Optional[int]:
     if not integer_string:
         return None
     return int(re.sub(r"\D", "", integer_string))
-

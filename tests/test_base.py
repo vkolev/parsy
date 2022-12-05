@@ -12,7 +12,7 @@ from pyparsy.exceptions import XPathValidationException, RegexValidationExceptio
 
 def test_initialization_raises_not_found():
     with pytest.raises(YamlFileNotFound):
-        parser = Parsy.from_file(Path("some_file_that_doesn_exists.yaml"))
+        parser = Parsy.from_file(Path("some_file_that_doesnt_exists.yaml"))
 
 
 def test_initialization_passes():

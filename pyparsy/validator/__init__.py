@@ -7,19 +7,24 @@ from schema import Schema, And, Use, Optional, Or
 from pyparsy.enum_types import SelectorType
 from pyparsy.exceptions import XPathValidationException, RegexValidationException
 
-DEFINITION_SCHEMA = Schema({
-    And("selector"): Or(str, list[str]),
-    And("selector_type"): And(str, Use(str.upper),
-                              lambda s: s in ("XPATH", "REGEX", "CSS")),
-    Optional("multiple"): And(bool),
-    And("return_type"): And(str, Use(str.upper),
-                            lambda s: s in ("INTEGER", "STRING", "FLOAT", "DOUBLE", "MAP")),
-    Optional("children"): Or(dict, list)
-})
+DEFINITION_SCHEMA = Schema(
+    {
+        And("selector"): Or(str, list[str]),
+        And("selector_type"): And(
+            str, Use(str.upper), lambda s: s in ("XPATH", "REGEX", "CSS")
+        ),
+        Optional("multiple"): And(bool),
+        And("return_type"): And(
+            str,
+            Use(str.upper),
+            lambda s: s in ("INTEGER", "STRING", "FLOAT", "DOUBLE", "MAP"),
+        ),
+        Optional("children"): Or(dict, list),
+    }
+)
 
 
 class Validator:
-
     def __init__(self, yaml_def: Dict):
         self.yaml_def = yaml_def
         self.__validate_all()
@@ -83,4 +88,3 @@ class Validator:
                     re.compile(reg)
         except Exception:
             raise RegexValidationException(field)
-

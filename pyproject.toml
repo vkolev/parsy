@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyparsy"
-version = "0.2.1"
+version = "0.2.3"
 description = "HTML parsing library using YAML definitions and XPath"
 authors = ["Vladimir Kolev <vladimir.r.kolev@gmail.com>"]
 license = "MIT"

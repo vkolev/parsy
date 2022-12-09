@@ -177,10 +177,10 @@ class Parsy:
         except AttributeError:
             data = html_data
         if return_type == ReturnType.STRING:
-            return data.strip() if self.strip_strings else data
+            return data.strip() if self.strip_strings and data else data
         if return_type == ReturnType.INTEGER:
-            return extract_integer(data.strip() if self.strip_strings else data)
+            return extract_integer(data.strip() if self.strip_strings and data else data)
         if return_type == ReturnType.FLOAT:
-            return extract_float(data.strip() if self.strip_strings else data)
+            return extract_float(data.strip() if self.strip_strings and data else data)
         if return_type == ReturnType.BOOLEAN:
             return data is not None

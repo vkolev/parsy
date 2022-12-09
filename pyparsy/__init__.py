@@ -14,7 +14,7 @@ from pyparsy.validator import Validator
 
 
 class Parsy:
-    def __init__(self, yaml_def: dict = None, validate: bool = True):
+    def __init__(self, yaml_def: dict = None, validate: bool = True, strip_strings=False):
         """
         Parsing class initializer
 
@@ -26,6 +26,7 @@ class Parsy:
             self.__validate()
         self.field_selectors = self.__create_field_selectors()
         self.html_string = None
+        self.strip_strings = strip_strings
 
     @classmethod
     def from_file(cls, yaml_file: Path, validate: bool = True):
@@ -162,8 +163,7 @@ class Parsy:
             result = html_data.css(selector)
         return result
 
-    @staticmethod
-    def _convert_to_type(
+    def _convert_to_type(self,
         html_data: Union[Selector, SelectorList, str], return_type: ReturnType
     ):
         """
@@ -177,10 +177,10 @@ class Parsy:
         except AttributeError:
             data = html_data
         if return_type == ReturnType.STRING:
-            return data
+            return data.strip() if self.strip_strings else data
         if return_type == ReturnType.INTEGER:
-            return extract_integer(data)
+            return extract_integer(data.strip() if self.strip_strings else data)
         if return_type == ReturnType.FLOAT:
-            return extract_float(data)
+            return extract_float(data.strip() if self.strip_strings else data)
         if return_type == ReturnType.BOOLEAN:
-            return data is not None
+            return data.strip() is not None

@@ -94,13 +94,14 @@ products:
 Then we can use this definition in code:
 
 ```python
+from pathlib import Path
 from pyparsy import Parsy
 import httpx
 import json
 
 
 def main():
-    parser = Parsy('tests/assets/amazon_bestseller_de.yaml')
+    parser = Parsy.from_file(Path('tests/assets/amazon_bestseller_de.yaml'))
     response = httpx.get("https://www.amazon.de/-/en/gp/bestsellers/ce-de/ref=zg_bs_nav_0")
     result = parser.parse(response.text)
     print(json.dumps(dict(result), indent=4))
@@ -337,23 +338,26 @@ Then we can use the PyParsy library in out code:
 
 ```python
 import httpx
+from pathlib import Path
 from pyparsy import Parsy
 
+
 def main():
-    html = httpx.get("https://www.amazon.com/gp/bestsellers/hi/?ie=UTF8&ref_=sv_hg_1")
-    parser = Parsy("amazon_bestseller.yaml")
-    result = parser.parse(html.text)
-    print(result)
-    
+  html = httpx.get("https://www.amazon.com/gp/bestsellers/hi/?ie=UTF8&ref_=sv_hg_1")
+  parser = Parsy.from_file(Path("amazon_bestseller.yaml"))
+  result = parser.parse(html.text)
+  print(result)
+
+
 if __name__ == "__main__":
-    main()
+  main()
 ```
 
 For more examples please see the tests for the library.
 
 ## Documentation
 
-[Documentation](https://pyparsy.readthedocs.com) (hopefuly some day)
+[Documentation](https://pyparsy.readthedocs.com) (hopefully some day)
 
 ## Acknowledgements
 

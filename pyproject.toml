@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyparsy"
-version = "0.1.2"
+version = "0.2.1"
 description = "HTML parsing library using YAML definitions and XPath"
 authors = ["Vladimir Kolev <vladimir.r.kolev@gmail.com>"]
 license = "MIT"
@@ -30,6 +30,7 @@ parsel = "^1.7.0"
 pytest = "^7.2.0"
 coverage = "^6.5.0"
 pytest-cov = "^4.0.0"
+black = "^22.10.0"
 
 [build-system]
 requires = ["poetry-core"]

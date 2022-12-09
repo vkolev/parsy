@@ -1,5 +1,5 @@
-import os
 from collections import defaultdict
+from pathlib import Path
 from typing import Any, Union, List
 
 import yaml
@@ -14,27 +14,32 @@ from pyparsy.validator import Validator
 
 
 class Parsy:
-
-    def __init__(self, yaml_path: str = None, validate: bool = True):
+    def __init__(self, yaml_def: dict = None, validate: bool = True, strip_strings=False):
         """
         Parsing class initializer
 
-        :param yaml_path: path to YAML file containing definitions
+        :param yaml_def: Yaml definition.
         :param validate: bool - turn on/off yaml schema validation
         """
-        self.yaml_path = yaml_path
-        self._definitions = self.__load_definitions()
+        self._definitions = yaml_def
         if validate:
             self.__validate()
         self.field_selectors = self.__create_field_selectors()
         self.html_string = None
+        self.strip_strings = strip_strings
 
-    def __load_definitions(self):
-        if not os.path.exists(self.yaml_path):
-            raise YamlFileNotFound(self.yaml_path)
-        with open(self.yaml_path) as yaml_file:
-            data = yaml.load(yaml_file, Loader=SafeLoader)
-            return data
+    @classmethod
+    def from_file(cls, yaml_file: Path, validate: bool = True):
+        if yaml_file.is_file():
+            stream = yaml_file.open()
+            data = yaml.load(stream, Loader=SafeLoader)
+            return cls(data, validate)
+        raise YamlFileNotFound(yaml_file.name)
+
+    @classmethod
+    def from_string(cls, yaml_string: str, validate: bool = True):
+        data = yaml.safe_load(yaml_string)
+        return cls(data, validate)
 
     def __create_field_selectors(self):
         if self._definitions:
@@ -51,9 +56,9 @@ class Parsy:
 
     def parse(self, html_string: str):
         """
-        Parse the whole html_string to a defaultdict
+        Parse the whole html_string to a default-dict
 
-        :param html_string: HTML formatted string
+        :param html_string: HTML formatted string.
         :return: dictionary of the parsed data
         """
         result = defaultdict()
@@ -65,7 +70,9 @@ class Parsy:
                 result[field] = list(self.parse_filed_multiple(html_data, definition))
         return result
 
-    def parse_field(self, html_data: Union[Selector, SelectorList], definition: Definition) -> Any:
+    def parse_field(
+        self, html_data: Union[Selector, SelectorList], definition: Definition
+    ) -> Any:
         """
         Extract field from html_data with given definition
         :param html_data: parsel.Selector with HTML data
@@ -81,7 +88,9 @@ class Parsy:
             result[child] = self.parse_field(data, child_definition)
         return result
 
-    def parse_filed_multiple(self, html_data: Union[Selector, SelectorList], definition) -> Any:
+    def parse_filed_multiple(
+        self, html_data: Union[Selector, SelectorList], definition
+    ) -> Any:
         if definition.selector_type == SelectorType.REGEX:
             items = self._get_selector_data(html_data, definition)
         else:
@@ -101,7 +110,7 @@ class Parsy:
         """
         Factory method to get the Selector from HTML based on the SelectorType
 
-        :param html_data: Selector - lxml.etree HTML content
+        :param html_data: Selector - `lxml.etree` HTML content
         :param definition: Definition - of the field
         :return: SelectorList - result of the selector query
         """
@@ -154,8 +163,9 @@ class Parsy:
             result = html_data.css(selector)
         return result
 
-    @staticmethod
-    def _convert_to_type(html_data: Union[Selector, SelectorList, str], return_type: ReturnType):
+    def _convert_to_type(self,
+        html_data: Union[Selector, SelectorList, str], return_type: ReturnType
+    ):
         """
         Convert the SelectorList/Selector data to a ReturnType format
         :param html_data: Selector/SelectorList HTML data
@@ -167,14 +177,10 @@ class Parsy:
         except AttributeError:
             data = html_data
         if return_type == ReturnType.STRING:
-            return data
+            return data.strip() if self.strip_strings else data
         if return_type == ReturnType.INTEGER:
-            return extract_integer(data)
+            return extract_integer(data.strip() if self.strip_strings else data)
         if return_type == ReturnType.FLOAT:
-            return extract_float(data)
+            return extract_float(data.strip() if self.strip_strings else data)
         if return_type == ReturnType.BOOLEAN:
             return data is not None
-        return None
-
-
-

@@ -183,4 +183,4 @@ class Parsy:
         if return_type == ReturnType.FLOAT:
             return extract_float(data.strip() if self.strip_strings else data)
         if return_type == ReturnType.BOOLEAN:
-            return data.strip() is not None
+            return data is not None

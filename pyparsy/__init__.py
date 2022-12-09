@@ -29,17 +29,17 @@ class Parsy:
         self.strip_strings = strip_strings
 
     @classmethod
-    def from_file(cls, yaml_file: Path, validate: bool = True):
+    def from_file(cls, yaml_file: Path, validate: bool = True, strip_strings=False):
         if yaml_file.is_file():
             stream = yaml_file.open()
             data = yaml.load(stream, Loader=SafeLoader)
-            return cls(data, validate)
+            return cls(data, validate, strip_strings)
         raise YamlFileNotFound(yaml_file.name)
 
     @classmethod
-    def from_string(cls, yaml_string: str, validate: bool = True):
+    def from_string(cls, yaml_string: str, validate: bool = True, strip_strings=False):
         data = yaml.safe_load(yaml_string)
-        return cls(data, validate)
+        return cls(data, validate, strip_strings)
 
     def __create_field_selectors(self):
         if self._definitions:

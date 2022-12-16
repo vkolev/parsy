@@ -104,7 +104,7 @@ class Parsy:
                 yield result
         else:
             for item in items:
-                yield item
+                yield self._convert_to_type(item, definition.return_type)
 
     def _get_selector_data(self, html_data: Selector, definition: Definition):
         """

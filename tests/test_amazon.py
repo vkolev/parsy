@@ -21,3 +21,14 @@ def test_amazon_com():
         assert 1 == result.get("page")
         assert isinstance(result.get("products"), list)
         assert 30 == len(result.get("products"))
+
+
+def test_amazon_de_search():
+    parser = Parsy.from_file(Path("tests/assets/amazon_de_search.yaml"), strip_strings=True)
+    with open("tests/assets/amazon_de_search.html") as file:
+        result = parser.parse(html_string=file.read())
+        assert "katzenfutter" == result.get('search_query')
+        assert 1 == result.get('current_page')
+        assert "katzenfutter" in result.get('next_page_url')
+        assert len(result.get('products')) == 60
+        assert len(result.get('related_searches')) == 6

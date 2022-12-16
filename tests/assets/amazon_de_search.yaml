@@ -1,0 +1,55 @@
+search_query:
+  selector: //input[@id="twotabsearchtextbox"]/@value
+  selector_type: XPATH
+  return_type: STRING
+current_page:
+  selector: //span[contains(@class, "s-pagination-selected")]/text()
+  selector_type: XPATH
+  return_type: INTEGER
+next_page_url:
+  selector: //a[contains(@class, 's-pagination-next')]/@href
+  selector_type: XPATH
+  return_type: STRING
+products:
+  selector: //div[contains(@class, 's-result-item s-asin')]
+  selector_type: XPATH
+  return_type: MAP
+  multiple: true
+  children:
+    image:
+      selector: //img[contains(@class, 's-image')]/@src
+      selector_type: XPATH
+      return_type: STRING
+    title:
+      selector: //h2/a/span/text()
+      selector_type: XPATH
+      return_type: STRING
+    price:
+      selector: //span[@class="a-price"]/span[@class="a-offscreen"]/text()
+      selector_type: XPATH
+      return_type: FLOAT
+    is_sponsored:
+      selector: //a[contains(@class, 's-sponsored-label-text')]
+      selector_type: XPATH
+      return_type: BOOLEAN
+    asin:
+      selector: //div[contains(@class, 's-result-item s-asin')]/@data-asin
+      selector_type: XPATH
+      return_type: STRING
+    is_prime:
+      selector: //span[contains(@class, 's-prime')]/i[contains(@class, 'a-icon-prime')]
+      selector_type: XPATH
+      return_type: BOOLEAN
+    is_bestseller:
+      selector: //span[contains(@id, '-best-seller')]
+      selector_type: XPATH
+      return_type: BOOLEAN
+    is_top_deal:
+      selector: //span[contains(@id, 'DEAL_OF_THE_DAY_')]
+      selector_type: XPATH
+      return_type: BOOLEAN
+related_searches:
+  selector: //div[contains(@class, 'related-searches')]//a/div/div[2]/span/text()
+  selector_type: XPATH
+  return_type: STRING
+  multiple: true
